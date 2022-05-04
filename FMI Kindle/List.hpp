@@ -7,27 +7,27 @@ class List {
 	size_t count;
 
 public:
-
-	List()
-	{
-		count = 0;
-		capacity = 10;
-		data = new T[capacity];
-	}
+	List();
+	bool contains(T element) const;
+	void add(T element);
+	T at(size_t ind) const;
 
 	size_t getCount()const {
 		return count;
 	}
 
-	void add(T element);
-	T at(size_t ind) const;
-
 	T operator[](size_t index)const {
 		return at(index);
 	}
 
-	bool contains(T element) const;
 };
+
+template <typename T>
+List<T>::List(){
+	count = 0;
+	capacity = 10;
+	data = new T[capacity];
+}
 
 template <typename T>
 T List<T>::at(size_t ind) const {
