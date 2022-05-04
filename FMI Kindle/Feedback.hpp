@@ -12,10 +12,13 @@ class Feedback
 
 public:
 	Feedback(String user);
-	bool addComment(String comment);
+
 	size_t getRating() const;
-	String getUser();
+	String getUser() const;
+
 	bool setRating(size_t r);
-	bool printComments(std::ostream& o);
-	void serialize(std::ostream& o);
+	bool addComment(String comment);
+
+	bool printComments(std::ostream& o)const;
+	void serialize(std::ostream& o)const;
 };

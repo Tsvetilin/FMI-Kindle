@@ -6,63 +6,40 @@
 
 const size_t BUFF_LENGTH = 4096;
 
-void String::copyFrom(const String& other)
-{
-	string = new char[strlen(other.string) + 1];
-	strcpy(string, other.string);
-	length = other.length;
-}
-
-void String::free()
-{
-	delete[] string;
-}
-
-String::String(const char* data)
+String::String(const char* data) : string(nullptr)
 {
 	if (data == nullptr)
 	{
-		string = new char[1];
-		string[0] = '\0';
-		length = 0;
+		setString("");
 		return;
 	}
 
-	length = strlen(data);
-	string = new char[length + 1];
-	strcpy(string, data);
+	setString(data);
 }
 
-
-
-String::String(const String& other)
+String::String(const String& other) : string(nullptr)
 {
-	copyFrom(other);
+	setString(other.string);
 }
 
 String& String::operator=(const String& other)
 {
 	if (this != &other)
 	{
-		free();
-		copyFrom(other);
+		setString(other.string);
 	}
 	return *this;
 }
 
 String& String::operator=(const char* const data)
 {
-	delete[] string;
-	length = strlen(data);
-	string = new char[length + 1];
-	strcpy(string, data);
-
+	setString(data);
 	return *this;
 }
 
 String::~String()
 {
-	free();
+	delete[] string;
 }
 
 
@@ -130,11 +107,7 @@ std::istream& operator>>(std::istream& i, String& string)
 	delete[] string.string;
 	char buff[BUFF_LENGTH];
 	i >> buff;
-
-	string.length = strlen(buff);
-	string.string = new char[string.length + 1];
-	strcpy(string.string, buff);
-
+	string.setString(buff);
 	return i;
 }
 
@@ -160,4 +133,19 @@ bool String::operator<(const String& other)
 bool String::operator<=(const String& other)
 {
 	return strcmp(string, other.c_str()) <= 0;
+}
+
+std::istream& getline(std::istream& i, String& str) {
+	char buff[BUFF_LENGTH];
+	std::cin.getline(buff, BUFF_LENGTH);
+	str.setString(buff);
+
+	return i;
+}
+
+void String::setString(const char* const str) {
+	delete[] string;
+	length = strlen(str);
+	string = new char[length + 1];
+	strcpy(string, str);
 }

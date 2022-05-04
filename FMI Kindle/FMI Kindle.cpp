@@ -1,9 +1,15 @@
 #include <iostream>
 #include "Kindle.hpp"
+#include "String.hpp"
 
 int main()
 {
     std::cout << "Hello FMI Kindle!\n";
+    String s;
+
+    getline(std::cin,s);
+
+    std::cout << s <<std::endl;
 
     Kindle kindle;
 

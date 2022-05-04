@@ -72,7 +72,7 @@ bool User::addPageToBook(Book* book, String content) {
 	return book->addPage(content);
 }
 
-void User::serializeUser(std::ostream& o) {
+void User::serializeUser(std::ostream& o) const{
 	size_t usernameLen = username.getLength();
 	size_t passwordLen = password.getLength();
 	size_t countRead = readBooks.getCount();

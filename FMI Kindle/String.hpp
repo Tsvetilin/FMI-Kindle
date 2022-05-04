@@ -6,8 +6,7 @@ class String {
 	char* string;
 	size_t length;
 
-	void copyFrom(const String&);
-	void free();
+	void setString(const char* const);
 
 public:
 	String() : String(nullptr) {}
@@ -36,4 +35,6 @@ public:
 
 	friend std::ostream& operator<<(std::ostream&, const String&);
 	friend std::istream& operator>>(std::istream&, String&);
+
+	friend std::istream& getline(std::istream&, String&);
 };

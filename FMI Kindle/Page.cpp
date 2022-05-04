@@ -14,7 +14,7 @@ bool Page::setContent(String content) {
 	return true;
 }
 
-void Page::serialize(std::ostream& o) {
+void Page::serialize(std::ostream& o) const{
 	size_t len = content.getLength();
 	o.write((const char*)&len, sizeof(len));
 	o.write((const char*)content.c_str(), len + 1);

@@ -23,7 +23,7 @@ bool Feedback::setRating(size_t r) {
 	return true;
 }
 
-bool Feedback::printComments(std::ostream& o) {
+bool Feedback::printComments(std::ostream& o) const {
 	for (size_t i = 0; i < comments.getCount(); i++)
 	{
 		o << user << " wrote: " << comments[i] << std::endl;
@@ -32,16 +32,16 @@ bool Feedback::printComments(std::ostream& o) {
 	return true;
 }
 
-String Feedback::getUser() {
+String Feedback::getUser() const{
 	return user;
 }
 
-void Feedback::serialize(std::ostream& o) {
+void Feedback::serialize(std::ostream& o) const{
 	size_t userLen = user.getLength();
 	size_t commentsCount = comments.getCount();
 
 	o.write((const char*)&(userLen), sizeof(userLen));
-	o.write((const char*)&user, sizeof(userLen) + 1);
+	o.write((const char*)user.c_str(), sizeof(userLen) + 1);
 
 	o.write((const char*)&rating, sizeof(rating));
 

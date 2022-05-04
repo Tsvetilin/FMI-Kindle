@@ -1,5 +1,4 @@
 #pragma once
-#pragma warning(disable:4996)
 
 #include <iostream>
 
@@ -12,7 +11,10 @@ class Page
 
 public:
 	Page(String content, size_t number);
+
 	String getContent() const;
+
 	bool setContent(String content);
-	void serialize(std::ostream& o);
+
+	void serialize(std::ostream& o)const;
 };

@@ -84,7 +84,7 @@ const Page* const Book::getPage(size_t pageNo) const {
 	return pages[pageNo];
 }
 
-bool Book::printComments(std::ostream& o) {
+bool Book::printComments(std::ostream& o) const{
 	for (size_t i = 0; i < feedbacks.getCount(); i++)
 	{
 		feedbacks[i]->printComments(o);
@@ -93,7 +93,7 @@ bool Book::printComments(std::ostream& o) {
 	return o.good();
 }
 
-bool Book::printRates(std::ostream& o) {
+bool Book::printRates(std::ostream& o)const {
 	for (size_t i = 0; i < feedbacks.getCount(); i++)
 	{
 		int r = feedbacks[i]->getRating();
@@ -120,7 +120,7 @@ bool Book::addPage(String content) {
 	return true;
 }
 
-void Book::serialize(std::ostream& o) {
+void Book::serialize(std::ostream& o) const {
 	size_t authorNameLen = authorName.getLength();
 	size_t titleLen = title.getLength();
 	size_t pagesCount = pages.getCount();
