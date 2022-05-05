@@ -1,4 +1,5 @@
 #include "Page.hpp"
+#include "Helper.hpp"
 
 Page::Page(String content, size_t number) {
 	this->content = content;
@@ -15,7 +16,11 @@ bool Page::setContent(String content) {
 }
 
 void Page::serialize(std::ostream& o) const{
-	size_t len = content.getLength();
-	o.write((const char*)&len, sizeof(len));
-	o.write((const char*)content.c_str(), len + 1);
+	serializePrimitive(o, number);
+	serializeString(o, content);
+}
+
+void Page::deserialize(std::istream& i) {
+	deserializePrimitive(i, number);
+	deserializeString(i, content);
 }

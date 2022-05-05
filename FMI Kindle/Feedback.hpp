@@ -12,7 +12,7 @@ class Feedback
 
 public:
 	Feedback(String user);
-
+	Feedback() {}
 	size_t getRating() const;
 	String getUser() const;
 
@@ -21,4 +21,6 @@ public:
 
 	bool printComments(std::ostream& o)const;
 	void serialize(std::ostream& o)const;
+	void deserialize(std::istream& i);
+
 };

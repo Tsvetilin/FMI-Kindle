@@ -1,4 +1,5 @@
 #include "Feedback.hpp"
+#include "Helper.hpp"
 
 Feedback::Feedback(String user) {
 	this->user = user;
@@ -37,19 +38,27 @@ String Feedback::getUser() const{
 }
 
 void Feedback::serialize(std::ostream& o) const{
-	size_t userLen = user.getLength();
 	size_t commentsCount = comments.getCount();
 
-	o.write((const char*)&(userLen), sizeof(userLen));
-	o.write((const char*)user.c_str(), sizeof(userLen) + 1);
+	serializeString(o, user);
+	serializePrimitive(o, rating);
+	serializePrimitive(o, commentsCount);
 
-	o.write((const char*)&rating, sizeof(rating));
-
-	o.write((const char*)&commentsCount, sizeof(commentsCount));
 	for (size_t i = 0; i < commentsCount; i++)
 	{
-		size_t l = comments[i].getLength();
-		o.write((const char*)&l, sizeof(l));
-		o.write((const char*)comments[i].c_str(), l + 1);
+		serializeString(o, comments[i]);
+	}
+}
+
+void Feedback::deserialize(std::istream& i) {
+	size_t commentsCount = 0;
+
+	deserializeString(i, user);
+	deserializePrimitive(i, rating);
+	deserializePrimitive(i, commentsCount);
+
+	for (size_t k = 0; k < commentsCount; k++)
+	{
+		deserializeString(i, comments[k]);
 	}
 }

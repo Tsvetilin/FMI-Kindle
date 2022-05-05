@@ -1,14 +1,12 @@
 #pragma once
+#include <iostream>
 
+template<typename T>
+void serializePrimitive(std::ostream& o, const T& data) {
+	o.write((const char*)&data, sizeof(data));
+}
 
-//djb2 hash algo
-unsigned long hash(unsigned char* str)
-{
-    unsigned long hash = 5381;
-    int c;
-
-    while (c = *str++)
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-
-    return hash;
+template<typename T>
+void deserializePrimitive(std::istream& i, const T& data) {
+	i.read((char*)&data, sizeof(data));
 }

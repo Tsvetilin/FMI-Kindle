@@ -10,6 +10,7 @@ class Page
 	size_t number;
 
 public:
+	Page(){}
 	Page(String content, size_t number);
 
 	String getContent() const;
@@ -17,4 +18,5 @@ public:
 	bool setContent(String content);
 
 	void serialize(std::ostream& o)const;
+	void deserialize(std::istream& i);
 };

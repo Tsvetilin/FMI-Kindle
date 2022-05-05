@@ -149,3 +149,20 @@ void String::setString(const char* const str) {
 	string = new char[length + 1];
 	strcpy(string, str);
 }
+
+std::ostream& serializeString(std::ostream& o, const String& str) {
+	o.write((const char*)&str.length, sizeof(str.length));
+	o.write((const char*)str.string, str.length);
+
+	return o;
+}
+
+std::istream& deserializeString(std::istream& i, String& str) {
+	i.read((char*)&str.length, sizeof(str.length));
+	char* temp = new char[str.length+1];
+	i.read(temp, str.length);
+	temp[str.length] = '\0';
+	str.string = temp;
+
+	return i;
+}

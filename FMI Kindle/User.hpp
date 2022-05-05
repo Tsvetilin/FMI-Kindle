@@ -29,5 +29,6 @@ public:
 	bool editTitle(Book* book, String newTitle);
 	bool addPageToBook(Book* book, String content);
 
-	void serializeUser(std::ostream& o) const;
+	void serialize(std::ostream& o) const;
+	void deserialize(std::istream& i, const List<Book*> books);
 };

@@ -37,4 +37,8 @@ public:
 	friend std::istream& operator>>(std::istream&, String&);
 
 	friend std::istream& getline(std::istream&, String&);
+
+	friend std::ostream& serializeString(std::ostream&, const String&);
+	friend std::istream& deserializeString(std::istream&, String&);
+
 };

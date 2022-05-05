@@ -41,4 +41,7 @@ int main()
     std::cout << kindle.readComments("First book",std::cout) << std::endl;
     std::cout << kindle.readRates("First book", std::cout) << std::endl;
     std::cout << kindle.getRating("First book") << std::endl;    
+
+    std::cout << kindle.save()<< std::endl;
+
 }

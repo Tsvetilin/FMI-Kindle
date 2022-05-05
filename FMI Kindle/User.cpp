@@ -1,4 +1,5 @@
 #include "User.hpp"
+#include "Helper.hpp"
 
 User::User(String username, String password)
 {
@@ -72,29 +73,45 @@ bool User::addPageToBook(Book* book, String content) {
 	return book->addPage(content);
 }
 
-void User::serializeUser(std::ostream& o) const{
-	size_t usernameLen = username.getLength();
-	size_t passwordLen = password.getLength();
+void User::serialize(std::ostream& o) const{
 	size_t countRead = readBooks.getCount();
 	size_t countWritten = writtenBooks.getCount();
 
-	o.write((const char*)&usernameLen, sizeof(usernameLen));
-	o.write((const char*)username.c_str(), usernameLen + 1);
+	serializeString(o, username);
+	serializeString(o, password);
 
-	o.write((const char*)&passwordLen, sizeof(passwordLen));
-	o.write((const char*)password.c_str(), passwordLen + 1);
-
-	o.write((const char*)&countRead, sizeof(countRead));
+	serializePrimitive(o, countRead);
 	for (size_t i = 0; i < countRead; i++)
 	{
-		size_t rid = readBooks[i]->getId();
-		o.write((const char*)&rid, sizeof(rid));
+		serializePrimitive(o,readBooks[i]->getId());
 	}
 
-	o.write((const char*)&countWritten, sizeof(countWritten));
+	serializePrimitive(o, countWritten);
 	for (size_t i = 0; i < countWritten; i++)
 	{
-		size_t wid = writtenBooks[i]->getId();
-		o.write((const char*)&wid, sizeof(wid));
+		serializePrimitive(o, writtenBooks[i]->getId());
+	}
+}
+
+void User::deserialize(std::istream& i, const List<Book*> books){
+	size_t countRead = 0;
+	size_t countWritten = 0;
+	size_t temp = 0;
+
+	deserializeString(i, username);
+	deserializeString(i, password);
+
+	deserializePrimitive(i, countRead);
+	for (size_t k = 0; k < countRead; k++)
+	{
+		deserializePrimitive(i,temp);
+		readBooks.add(books[temp - 1]);
+	}
+
+	deserializePrimitive(i, countWritten);
+	for (size_t k = 0; k < countWritten; k++)
+	{
+		deserializePrimitive(i, temp);
+		writtenBooks.add(books[temp - 1]);
 	}
 }

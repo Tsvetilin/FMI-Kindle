@@ -1,4 +1,5 @@
 #include "Book.hpp"
+#include "Helper.hpp"
 
 void Book::setAuthorName(String authorName) {
 	this->authorName = authorName;
@@ -121,29 +122,51 @@ bool Book::addPage(String content) {
 }
 
 void Book::serialize(std::ostream& o) const {
-	size_t authorNameLen = authorName.getLength();
-	size_t titleLen = title.getLength();
 	size_t pagesCount = pages.getCount();
 	size_t feedbacksCount = feedbacks.getCount();
 
-	o.write((const char*)&id, sizeof(id));
-	o.write((const char*)&rating, sizeof(rating));
+	serializePrimitive(o, id);
+	serializePrimitive(o, rating);
 
-	o.write((const char*)&pagesCount, sizeof(pagesCount));
+	serializePrimitive(o, pagesCount);
 	for (size_t i = 0; i < pagesCount; i++)
 	{
 		pages[i]->serialize(o);
 	}
 
-	o.write((const char*)&authorNameLen, sizeof(authorNameLen));
-	o.write((const char*)authorName.c_str(), authorNameLen + 1);
+	serializeString(o, authorName);
+	serializeString(o, title);
 
-	o.write((const char*)&titleLen, sizeof(titleLen));
-	o.write((const char*)title.c_str(), titleLen + 1);
-
-	o.write((const char*)&feedbacksCount, sizeof(feedbacksCount));
+	serializePrimitive(o, feedbacksCount);
 	for (size_t i = 0; i < feedbacksCount; i++)
 	{
 		feedbacks[i]->serialize(o);
+	}
+}
+
+void Book::deserialize(std::istream& i) {
+	size_t pagesCount = 0;
+	size_t feedbacksCount = 0;
+
+	deserializePrimitive(i, id);
+	deserializePrimitive(i, rating);
+
+	deserializePrimitive(i, pagesCount);
+	for (size_t k = 0; k < pagesCount; k++)
+	{
+		Page* page = new Page();
+		page->deserialize(i);
+		pages.add(page);
+	}
+
+	deserializeString(i, authorName);
+	deserializeString(i, title);
+
+	deserializePrimitive(i, feedbacksCount);
+	for (size_t k = 0; k < feedbacksCount; k++)
+	{
+		Feedback* feedback = new Feedback();
+		feedback->deserialize(i);
+		feedbacks.add(feedback);
 	}
 }

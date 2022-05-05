@@ -8,15 +8,15 @@ class List {
 
 public:
 	List();
-	bool contains(T element) const;
-	void add(T element);
-	T at(size_t ind) const;
+	bool contains(const T& element) const;
+	void add(const T& element);
+	T& at(size_t ind) const;
 
 	size_t getCount()const {
 		return count;
 	}
 
-	T operator[](size_t index)const {
+	T& operator[](size_t index)const {
 		return at(index);
 	}
 
@@ -30,7 +30,7 @@ List<T>::List(){
 }
 
 template <typename T>
-T List<T>::at(size_t ind) const {
+T& List<T>::at(size_t ind) const {
 	if (ind >= count) {
 		throw "Index out of range exception.";
 	}
@@ -39,7 +39,7 @@ T List<T>::at(size_t ind) const {
 }
 
 template <typename T>
-void List<T>::add(T element) {
+void List<T>::add(const T& element) {
 	if (capacity == count) {
 		capacity *= 2;
 		T* newArr = new T[capacity];
@@ -55,7 +55,7 @@ void List<T>::add(T element) {
 }
 
 template <typename T>
-bool List<T>::contains(T element)const {
+bool List<T>::contains(const T& element)const {
 	for (size_t i = 0; i < count; i++)
 	{
 		if (data[i] == element) {

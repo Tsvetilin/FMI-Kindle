@@ -39,4 +39,7 @@ public:
 	bool printRates(std::ostream& o) const;
 
 	void serialize(std::ostream& o) const;
+	void deserialize(std::istream& i);
 };
+
+
