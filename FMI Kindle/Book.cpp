@@ -1,14 +1,10 @@
 #include "Book.hpp"
 #include "Helper.hpp"
 
-void Book::setAuthorName(String authorName) {
-	this->authorName = authorName;
-}
-
-Book::Book(String authorName, String title, String firstPageContent, size_t uid) {
+Book::Book(const String& authorName, const String& title, const String& firstPageContent, size_t uid) {
 	addPage(firstPageContent);
 	setTitle(title);
-	setAuthorName(authorName);
+	this->authorName = authorName;
 	id = uid;
 }
 
@@ -43,19 +39,43 @@ double Book::getRating() const {
 	return ratingSum / ratingCount;
 }
 
-bool Book::setTitle(String title) {
+bool Book::setTitle(const String& title) {
 	this->title = title;
 	return true;
 }
 
 Book::Book() {}
 
+void Book::copyFrom(const Book& other) {
+
+}
+
+void Book::free() {
+
+}
+
+Book::Book(const Book& other) {
+	copyFrom(other);
+}
+
+Book& Book::operator= (const Book& other) {
+	if (this != &other) {
+		free();
+		copyFrom(other);
+	}
+}
+
+Book::~Book() {
+	free();
+}
+
+
 const size_t Book::getId() const {
 	return id;
 }
 
 
-bool Book::rate(String user, size_t rate) {
+bool Book::rate(const String& user, size_t rate) {
 	for (size_t i = 0; i < feedbacks.getCount(); i++)
 	{
 		if (feedbacks[i]->getUser() == user) {
@@ -68,7 +88,7 @@ bool Book::rate(String user, size_t rate) {
 	return f->setRating(rate);
 }
 
-bool Book::comment(String user, String comment) {
+bool Book::comment(const String& user, const String& comment) {
 	for (size_t i = 0; i < feedbacks.getCount(); i++)
 	{
 		if (feedbacks[i]->getUser() == user) {
@@ -85,7 +105,7 @@ const Page* const Book::getPage(size_t pageNo) const {
 	return pages[pageNo];
 }
 
-bool Book::printComments(std::ostream& o) const{
+bool Book::printComments(std::ostream& o) const {
 	for (size_t i = 0; i < feedbacks.getCount(); i++)
 	{
 		feedbacks[i]->printComments(o);
@@ -106,7 +126,7 @@ bool Book::printRates(std::ostream& o)const {
 	return o.good();
 }
 
-bool Book::editPage(size_t pageNumber, String content) {
+bool Book::editPage(size_t pageNumber, const String& content) {
 	if (pageNumber > pages.getCount()) {
 		return false;
 	}
@@ -114,7 +134,7 @@ bool Book::editPage(size_t pageNumber, String content) {
 	return pages[pageNumber - 1]->setContent(content);
 }
 
-bool Book::addPage(String content) {
+bool Book::addPage(const String& content) {
 	Page* page = new Page(content, pages.getCount() + 1);
 	pages.add(page);
 

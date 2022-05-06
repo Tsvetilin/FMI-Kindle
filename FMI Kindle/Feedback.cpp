@@ -1,12 +1,12 @@
 #include "Feedback.hpp"
 #include "Helper.hpp"
 
-Feedback::Feedback(String user) {
+Feedback::Feedback(const String& user) {
 	this->user = user;
 	rating = -1;
 }
 
-bool Feedback::addComment(String comment) {
+bool Feedback::addComment(const String& comment) {
 	comments.add(comment);
 	return true;
 }
@@ -59,6 +59,8 @@ void Feedback::deserialize(std::istream& i) {
 
 	for (size_t k = 0; k < commentsCount; k++)
 	{
-		deserializeString(i, comments[k]);
+		String comment;
+		deserializeString(i, comment);
+		comments.add(comment);
 	}
 }

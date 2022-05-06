@@ -11,11 +11,11 @@ class Page
 
 public:
 	Page(){}
-	Page(String content, size_t number);
+	Page(const String& content, size_t number);
 
 	String getContent() const;
 
-	bool setContent(String content);
+	bool setContent(const String& content);
 
 	void serialize(std::ostream& o)const;
 	void deserialize(std::istream& i);

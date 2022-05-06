@@ -25,20 +25,20 @@ public:
 	const char* c_str() const;
 
 	String& operator+=(const String&);
-	String operator+(const String&);
+	String operator+(const String&) const;
 
-	bool operator== (const String&);
-	bool operator< (const String&);
-	bool operator> (const String&);
-	bool operator>= (const String&);
-	bool operator<= (const String&);
+	bool operator== (const String&) const;
+	bool operator< (const String&) const;
+	bool operator> (const String&) const;
+	bool operator>= (const String&) const;
+	bool operator<= (const String&) const;
 
 	friend std::ostream& operator<<(std::ostream&, const String&);
 	friend std::istream& operator>>(std::istream&, String&);
 
 	friend std::istream& getline(std::istream&, String&);
 
-	friend std::ostream& serializeString(std::ostream&, const String&);
-	friend std::istream& deserializeString(std::istream&, String&);
+	friend void serializeString(std::ostream&, const String&);
+	friend void deserializeString(std::istream&, String&);
 
 };

@@ -16,11 +16,15 @@ class Book
 	List<Page*> pages;
 	double rating;
 
-	void setAuthorName(String authorName);
+	void copyFrom(const Book& other);
+	void free();
 
 public:
 	Book();
-	Book(String authorName, String title, String firstPageContent, size_t uid);
+	Book(const String& authorName, const String& title, const String& firstPageContent, size_t uid);
+	Book(const Book& other);
+	Book& operator= (const Book& other);
+	~Book();
 
 	String getAuthor() const;
 	String getTitle()const;
@@ -28,12 +32,12 @@ public:
 	const size_t getId() const;
 	const Page* const getPage(size_t pageNo) const;
 
-	bool setTitle(String title);
-	bool rate(String user, size_t rate);
-	bool comment(String user, String comment);
+	bool setTitle(const String& title);
+	bool rate(const String& user, size_t rate);
+	bool comment(const String& user, const String& comment);
 
-	bool editPage(size_t pageNumber, String content);
-	bool addPage(String content);
+	bool editPage(size_t pageNumber, const String& content);
+	bool addPage(const String& content);
 
 	bool printComments(std::ostream& o) const;
 	bool printRates(std::ostream& o) const;

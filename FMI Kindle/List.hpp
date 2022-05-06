@@ -6,8 +6,15 @@ class List {
 	size_t capacity;
 	size_t count;
 
+	void copyFrom(const List& other);
+	void free();
+
 public:
 	List();
+	List(const List& other);
+	List& operator= (const List& other);
+	~List();
+
 	bool contains(const T& element) const;
 	void add(const T& element);
 	T& at(size_t ind) const;
@@ -23,10 +30,46 @@ public:
 };
 
 template <typename T>
-List<T>::List(){
+void List<T>::copyFrom(const List& other) {
+	count = other.count;
+	capacity = other.capacity;
+	data = new T[capacity];
+	for (size_t i = 0; i < count; i++)
+	{
+		data[i] = other.data[i];
+	}
+}
+
+template <typename T>
+void List<T>::free() {
+	delete[] data;
+}
+
+template <typename T>
+List<T>::List() {
 	count = 0;
 	capacity = 10;
 	data = new T[capacity];
+}
+
+template <typename T>
+List<T>::List(const List& other) {
+	copyFrom(other);
+}
+
+template <typename T>
+List<T>& List<T>::operator= (const List<T>& other) {
+	if (this != &other) {
+		copyFrom(other);
+		free();
+	}
+
+	return *this;
+}
+
+template <typename T>
+List<T>::~List() {
+	free();
 }
 
 template <typename T>

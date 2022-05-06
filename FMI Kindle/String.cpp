@@ -89,7 +89,7 @@ String& String::operator+=(const String& other)
 	return *this;
 }
 
-String String::operator+(const String& other)
+String String::operator+(const String& other) const
 {
 	String left(*this);
 	left += other;
@@ -111,26 +111,26 @@ std::istream& operator>>(std::istream& i, String& string)
 	return i;
 }
 
-bool String::operator==(const String& other)
+bool String::operator==(const String& other) const
 {
 	return strcmp(string, other.c_str()) == 0;
 }
 
-bool String::operator>(const String& other)
+bool String::operator>(const String& other) const
 {
 	return strcmp(string, other.c_str()) > 0;
 }
-bool String::operator>=(const String& other)
+bool String::operator>=(const String& other) const
 {
 	return strcmp(string, other.c_str()) >= 0;
 }
 
-bool String::operator<(const String& other)
+bool String::operator<(const String& other) const
 {
 	return strcmp(string, other.c_str()) < 0;
 }
 
-bool String::operator<=(const String& other)
+bool String::operator<=(const String& other) const
 {
 	return strcmp(string, other.c_str()) <= 0;
 }
@@ -150,19 +150,15 @@ void String::setString(const char* const str) {
 	strcpy(string, str);
 }
 
-std::ostream& serializeString(std::ostream& o, const String& str) {
+void serializeString(std::ostream& o, const String& str) {
 	o.write((const char*)&str.length, sizeof(str.length));
 	o.write((const char*)str.string, str.length);
-
-	return o;
 }
 
-std::istream& deserializeString(std::istream& i, String& str) {
+void deserializeString(std::istream& i, String& str) {
 	i.read((char*)&str.length, sizeof(str.length));
 	char* temp = new char[str.length+1];
 	i.read(temp, str.length);
 	temp[str.length] = '\0';
 	str.string = temp;
-
-	return i;
 }

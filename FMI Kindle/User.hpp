@@ -13,21 +13,21 @@ class User
 
 public:
 	User(){}
-	User(String username, String password);
+	User(const String& username, const String& password);
 
 	String getUsername()const;
 
-	bool loginAttempt(String password) const;
+	bool loginAttempt(const String& password) const;
 	bool hasReadBook(const Book* book) const;
 	bool isAuthor(Book* book) const;
 
 	bool rateBook(Book* book, size_t rate);
-	bool commentBook(Book* book, String comment);
+	bool commentBook(Book* book, const String& comment);
 	bool readBook(const Book* book);
 	bool writeBook(Book* book);
-	bool editBook(Book* book, size_t pageNumber, String content);
-	bool editTitle(Book* book, String newTitle);
-	bool addPageToBook(Book* book, String content);
+	bool editBook(Book* book, size_t pageNumber, const String& content);
+	bool editTitle(Book* book, const String& newTitle);
+	bool addPageToBook(Book* book, const String& content);
 
 	void serialize(std::ostream& o) const;
 	void deserialize(std::istream& i, const List<Book*> books);

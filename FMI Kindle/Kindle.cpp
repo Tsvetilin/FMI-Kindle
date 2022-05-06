@@ -3,9 +3,59 @@
 
 #include <fstream>
 
-const char* const DATABASE_NAME = "fmi-kindle.db";
+const String DEFAULT_DATABASE_NAME("fmi-kindle.db");
 
-Book* Kindle::findBook(String title) {
+void Kindle::copyFrom(const Kindle& other) {
+	databaseName = other.databaseName;
+
+	books = List<Book*>();
+	users = List<User*>();
+
+	size_t booksCount = other.books.getCount();
+	size_t usersCount = other.users.getCount();
+
+	for (size_t i = 0; i < booksCount; i++)
+	{
+		Book* book = new Book(*other.books[i]);
+		books.add(book);
+	}
+
+	for (size_t i = 0; i < usersCount; i++)
+	{
+		User* user = new User(*other.users[i]);
+		users.add(user);
+	}
+
+	if (other.currentLoggedUser == nullptr) {
+		currentLoggedUser = nullptr;
+	}
+	else {
+		for (size_t i = 0; i < usersCount; i++)
+		{
+			if (users[i]->getUsername() == other.currentLoggedUser->getUsername()) {
+				currentLoggedUser = users[i];
+				break;
+			}
+		}
+	}
+}
+
+void Kindle::free() {
+	size_t booksCount = books.getCount();
+	size_t usersCount = users.getCount();
+
+	for (size_t i = 0; i < booksCount; i++)
+	{
+		delete books[i];
+	}
+
+	for (size_t i = 0; i < usersCount; i++)
+	{
+		delete users[i];
+	}
+}
+
+Book* Kindle::findBook(const String& title) const{
 	for (size_t i = 0; i < books.getCount(); i++)
 	{
 		if (books[i]->getTitle() == title) {
@@ -16,12 +66,28 @@ Book* Kindle::findBook(String title) {
 	return nullptr;
 }
 
-Kindle::Kindle() :currentLoggedUser(nullptr), uidGeneration(0) {
+Kindle::Kindle() :Kindle(DEFAULT_DATABASE_NAME) {}
+
+Kindle::Kindle(const String& databaseName) :currentLoggedUser(nullptr) {
+	this->databaseName = databaseName;
 	readDb();
 }
 
+Kindle::Kindle(const Kindle& other) {
+	copyFrom(other);
+}
+
+Kindle& Kindle::operator= (const Kindle& other) {
+	if (this != &other) {
+		free();
+		copyFrom(other);
+	}
+
+	return *this;
+}
+
 bool Kindle::readDb() {
-	std::ifstream db(DATABASE_NAME, std::ios_base::binary);
+	std::ifstream db(databaseName.c_str(), std::ios_base::binary);
 
 	if (!db.is_open()) {
 		return false;
@@ -51,8 +117,8 @@ bool Kindle::readDb() {
 	return db.good();
 }
 
-bool Kindle::saveDb() {
-	std::ofstream db(DATABASE_NAME, std::ios_base::out | std::ios_base::binary);
+bool Kindle::saveDb() const{
+	std::ofstream db(databaseName.c_str(), std::ios_base::out | std::ios_base::binary);
 
 	if (!db.is_open()) {
 		return false;
@@ -79,10 +145,10 @@ bool Kindle::saveDb() {
 }
 
 Kindle::~Kindle() {
-
+	free();
 }
 
-bool Kindle::login(String username, String password) {
+bool Kindle::login(const String& username, const String& password) {
 	for (size_t i = 0; i < users.getCount(); i++)
 	{
 		if (username == users[i]->getUsername()) {
@@ -93,7 +159,7 @@ bool Kindle::login(String username, String password) {
 	return false;
 }
 
-bool Kindle::signup(String username, String password) {
+bool Kindle::signup(const String& username, const String& password) {
 	for (size_t i = 0; i < users.getCount(); i++)
 	{
 		if (username == users[i]->getUsername()) {
@@ -112,7 +178,7 @@ bool Kindle::logout() {
 	return true;
 }
 
-bool Kindle::writeBook(String title, String firstPageContent) {
+bool Kindle::writeBook(const String& title, const String& firstPageContent) {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -125,16 +191,16 @@ bool Kindle::writeBook(String title, String firstPageContent) {
 		}
 	}
 
-	Book* book = new Book(currentLoggedUser->getUsername(), title, firstPageContent, uidGeneration);
+	Book* book = new Book(currentLoggedUser->getUsername(), title, firstPageContent, books.getCount()-1);
 	books.add(book);
 	return currentLoggedUser->writeBook(book);
 }
 
-bool Kindle::readBook(String bookTitle, std::ostream& o) {
+bool Kindle::readBook(const String& bookTitle, std::ostream& o) {
 	return readBookPage(bookTitle, 1, o);
 }
 
-bool Kindle::readBookPage(String bookTitle, size_t page, std::ostream& o) {
+bool Kindle::readBookPage(const String& bookTitle, size_t page, std::ostream& o) {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -154,7 +220,7 @@ bool Kindle::readBookPage(String bookTitle, size_t page, std::ostream& o) {
 	return o.good();
 }
 
-bool Kindle::rateBook(String bookTitle, size_t rate) {
+bool Kindle::rateBook(const String& bookTitle, size_t rate) {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -167,7 +233,7 @@ bool Kindle::rateBook(String bookTitle, size_t rate) {
 	return currentLoggedUser->rateBook(book, rate);
 }
 
-bool Kindle::commentBook(String bookTitle, String comment) {
+bool Kindle::commentBook(const String& bookTitle, const String& comment) {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -180,7 +246,7 @@ bool Kindle::commentBook(String bookTitle, String comment) {
 	return currentLoggedUser->commentBook(book, comment);
 }
 
-bool Kindle::readComments(String bookTitle, std::ostream& o) {
+bool Kindle::readComments(const String& bookTitle, std::ostream& o) const {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -197,7 +263,7 @@ bool Kindle::readComments(String bookTitle, std::ostream& o) {
 	return book->printComments(o);
 }
 
-bool Kindle::readRates(String bookTitle, std::ostream& o) {
+bool Kindle::readRates(const String& bookTitle, std::ostream& o) const {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -214,7 +280,7 @@ bool Kindle::readRates(String bookTitle, std::ostream& o) {
 	return book->printRates(o);
 }
 
-double Kindle::getRating(String bookTitle) {
+double Kindle::getRating(const String& bookTitle) const {
 	if (currentLoggedUser == nullptr) {
 		return -2;
 	}
@@ -227,8 +293,17 @@ double Kindle::getRating(String bookTitle) {
 	return book->getRating();
 }
 
-bool Kindle::editBook(String bookTitle, String newTitle) {
+bool Kindle::editBook(const String& bookTitle, const String& newTitle) {
 	if (currentLoggedUser == nullptr) {
+		return false;
+	}
+
+	if (bookTitle == newTitle) {
+		return true;
+	}
+
+	Book* matchBook = findBook(newTitle);
+	if (matchBook != nullptr) {
 		return false;
 	}
 
@@ -240,7 +315,7 @@ bool Kindle::editBook(String bookTitle, String newTitle) {
 	return currentLoggedUser->editTitle(book, newTitle);
 }
 
-bool Kindle::editBookPage(String bookTitle, size_t pageNumber, String content) {
+bool Kindle::editBookPage(const String& bookTitle, size_t pageNumber, const String& content) {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -253,7 +328,7 @@ bool Kindle::editBookPage(String bookTitle, size_t pageNumber, String content) {
 	return currentLoggedUser->editBook(book, pageNumber, content);
 }
 
-bool Kindle::addPage(String bookTitle, String content) {
+bool Kindle::addPage(const String& bookTitle, const String& content) {
 	if (currentLoggedUser == nullptr) {
 		return false;
 	}
@@ -266,11 +341,11 @@ bool Kindle::addPage(String bookTitle, String content) {
 	return currentLoggedUser->addPageToBook(book, content);
 }
 
-bool Kindle::save() {
+bool Kindle::save() const{
 	return saveDb();
 }
 
-void Kindle::printBooks(std::ostream& o) {
+void Kindle::printBooks(std::ostream& o) const {
 	for (size_t i = 0; i < books.getCount(); i++)
 	{
 		o << (i + 1) << ". " << books[i]->getTitle() << " by " << books[i]->getAuthor() << std::endl;

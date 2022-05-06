@@ -1,13 +1,13 @@
 #include "User.hpp"
 #include "Helper.hpp"
 
-User::User(String username, String password)
+User::User(const String& username, const String& password)
 {
 	this->username = username;
 	this->password = password;
 }
 
-bool User::loginAttempt(String password) const {
+bool User::loginAttempt(const String& password) const {
 	return password == this->password;
 }
 
@@ -37,7 +37,7 @@ bool User::rateBook(Book* book, size_t rate) {
 	return book->rate(this->username, rate);
 }
 
-bool User::commentBook(Book* book, String comment) {
+bool User::commentBook(Book* book, const String& comment) {
 	if (!hasReadBook(book) && !isAuthor(book)) {
 		return false;
 	}
@@ -49,7 +49,7 @@ String User::getUsername()const {
 	return username;
 }
 
-bool User::editBook(Book* book, size_t pageNumber, String content) {
+bool User::editBook(Book* book, size_t pageNumber, const String& content) {
 	if (!writtenBooks.contains(book)) {
 		return false;
 	}
@@ -57,7 +57,7 @@ bool User::editBook(Book* book, size_t pageNumber, String content) {
 	return book->editPage(pageNumber, content);
 }
 
-bool User::editTitle(Book* book, String newTitle) {
+bool User::editTitle(Book* book, const String& newTitle) {
 	if (!writtenBooks.contains(book)) {
 		return false;
 	}
@@ -65,7 +65,7 @@ bool User::editTitle(Book* book, String newTitle) {
 	return book->setTitle(newTitle);
 }
 
-bool User::addPageToBook(Book* book, String content) {
+bool User::addPageToBook(Book* book, const String& content) {
 	if (!writtenBooks.contains(book)) {
 		return false;
 	}
@@ -105,13 +105,13 @@ void User::deserialize(std::istream& i, const List<Book*> books){
 	for (size_t k = 0; k < countRead; k++)
 	{
 		deserializePrimitive(i,temp);
-		readBooks.add(books[temp - 1]);
+		readBooks.add(books[temp]);
 	}
 
 	deserializePrimitive(i, countWritten);
 	for (size_t k = 0; k < countWritten; k++)
 	{
 		deserializePrimitive(i, temp);
-		writtenBooks.add(books[temp - 1]);
+		writtenBooks.add(books[temp]);
 	}
 }

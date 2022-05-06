@@ -12,31 +12,39 @@ class Kindle
 	List<Book*> books;
 
 	User* currentLoggedUser;
-	size_t uidGeneration;
+	String databaseName;
 
-	Book* findBook(String title);
+	Book* findBook(const String& title) const;
 	bool readDb();
-	bool saveDb();
+	bool saveDb() const;
+	void copyFrom(const Kindle& other);
+	void free();
 
 public:
 	Kindle();
-	
+	Kindle(const String& databaseName);
+	Kindle(const Kindle&);
+	Kindle& operator= (const Kindle&);
 	~Kindle();
-	bool login(String username, String password);
-	bool signup(String username, String password);
-	bool logout();
-	bool writeBook(String title, String firstPageContent);
-	bool readBook(String bookTitle, std::ostream& o);
-	bool readBookPage(String bookTitle, size_t page, std::ostream& o);
-	bool rateBook(String bookTitle, size_t rate);
-	bool commentBook(String bookTitle, String comment);
-	bool readComments(String bookTitle, std::ostream& o);
-	bool readRates(String bookTitle, std::ostream& o);
-	double getRating(String bookTitle);
-	bool editBook(String bookTitle, String newTitle);
-	bool editBookPage(String bookTitle, size_t pageNumber, String content);
-	bool addPage(String bookTitle, String content);
-	bool save();
-	void printBooks(std::ostream& o);
 
+	bool login(const String& username, const String& password);
+	bool signup(const String& username, const String& password);
+	bool logout();
+
+	bool writeBook(const String& title, const String& firstPageContent);
+	bool readBook(const String& bookTitle, std::ostream& o);
+	bool editBook(const String& bookTitle, const String& newTitle);
+	bool editBookPage(const String& bookTitle, size_t pageNumber, const String& content);
+	bool addPage(const String& bookTitle, const String& content);
+
+	bool readBookPage(const String& bookTitle, size_t page, std::ostream& o);
+	bool rateBook(const String& bookTitle, size_t rate);
+	bool commentBook(const String& bookTitle, const String& comment);
+
+	void printBooks(std::ostream& o)const;
+	bool readComments(const String& bookTitle, std::ostream& o) const;
+	bool readRates(const String& bookTitle, std::ostream& o) const;
+	double getRating(const String& bookTitle) const;
+
+	bool save() const;
 };
