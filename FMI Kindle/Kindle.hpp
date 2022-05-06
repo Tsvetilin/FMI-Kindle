@@ -41,7 +41,7 @@ public:
 	bool rateBook(const String& bookTitle, size_t rate);
 	bool commentBook(const String& bookTitle, const String& comment);
 
-	void printBooks(std::ostream& o)const;
+	bool printBooks(std::ostream& o)const;
 	bool readComments(const String& bookTitle, std::ostream& o) const;
 	bool readRates(const String& bookTitle, std::ostream& o) const;
 	double getRating(const String& bookTitle) const;

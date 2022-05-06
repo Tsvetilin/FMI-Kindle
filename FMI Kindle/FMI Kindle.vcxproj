@@ -145,6 +145,7 @@
     <ClCompile Include="Feedback.cpp" />
     <ClCompile Include="Feedback.hpp" />
     <ClCompile Include="FMI Kindle.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Kindle.cpp" />
     <ClCompile Include="Kindle.hpp" />
     <ClCompile Include="Page.cpp" />

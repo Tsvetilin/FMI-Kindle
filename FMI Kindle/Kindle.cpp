@@ -345,9 +345,21 @@ bool Kindle::save() const{
 	return saveDb();
 }
 
-void Kindle::printBooks(std::ostream& o) const {
+bool Kindle::printBooks(std::ostream& o) const {
+	if (currentLoggedUser == nullptr) {
+		return false;
+	}
+
+	if (books.getCount() == 0)
+	{
+		std::cout << "No books written in the kindle!" << std::endl;
+		return true;
+	}
+
 	for (size_t i = 0; i < books.getCount(); i++)
 	{
 		o << (i + 1) << ". " << books[i]->getTitle() << " by " << books[i]->getAuthor() << std::endl;
 	}
+
+	return true;
 }

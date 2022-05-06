@@ -18,11 +18,12 @@ public:
 
 	~String();
 
-	size_t getLength() const;
-	void concat(const String&);
-	String substr(size_t, size_t);
-
 	const char* c_str() const;
+	size_t getLength() const;
+	String substr(size_t, size_t) const;
+
+	void trim();
+	void concat(const String&);
 
 	String& operator+=(const String&);
 	String operator+(const String&) const;
@@ -32,13 +33,16 @@ public:
 	bool operator> (const String&) const;
 	bool operator>= (const String&) const;
 	bool operator<= (const String&) const;
+	bool operator!= (const String&) const;
+
+	char& operator[](size_t);
+	const char& operator[](size_t) const;
 
 	friend std::ostream& operator<<(std::ostream&, const String&);
 	friend std::istream& operator>>(std::istream&, String&);
 
-	friend std::istream& getline(std::istream&, String&);
+	friend void getline(std::istream&, String&);
 
 	friend void serializeString(std::ostream&, const String&);
 	friend void deserializeString(std::istream&, String&);
-
 };

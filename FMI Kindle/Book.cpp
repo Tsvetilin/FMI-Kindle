@@ -47,11 +47,41 @@ bool Book::setTitle(const String& title) {
 Book::Book() {}
 
 void Book::copyFrom(const Book& other) {
+	authorName = other.authorName;
+	title = other.title;
+	id = other.id;
 
+	size_t pagesCount = other.pages.getCount();
+	size_t feedbacksCount = other.feedbacks.getCount();
+	pages = List<Page*>();
+	feedbacks = List<Feedback*>();
+
+	for (size_t i = 0; i < pagesCount; i++)
+	{
+		Page* page = new Page(*other.pages[i]);
+		pages.add(page);
+	}
+
+	for (size_t i = 0; i < feedbacksCount; i++)
+	{
+		Feedback* feedback = new Feedback(*other.feedbacks[i]);
+		feedbacks.add(feedback);
+	}
 }
 
 void Book::free() {
+	size_t pagesCount = pages.getCount();
+	size_t feedbacksCount = feedbacks.getCount();
 
+	for (size_t i = 0; i < pagesCount; i++)
+	{
+		delete pages[i];
+	}
+
+	for (size_t i = 0; i < feedbacksCount; i++)
+	{
+		delete feedbacks[i];
+	}
 }
 
 Book::Book(const Book& other) {
@@ -63,6 +93,8 @@ Book& Book::operator= (const Book& other) {
 		free();
 		copyFrom(other);
 	}
+
+	return *this;
 }
 
 Book::~Book() {
@@ -146,7 +178,6 @@ void Book::serialize(std::ostream& o) const {
 	size_t feedbacksCount = feedbacks.getCount();
 
 	serializePrimitive(o, id);
-	serializePrimitive(o, rating);
 
 	serializePrimitive(o, pagesCount);
 	for (size_t i = 0; i < pagesCount; i++)
@@ -169,7 +200,6 @@ void Book::deserialize(std::istream& i) {
 	size_t feedbacksCount = 0;
 
 	deserializePrimitive(i, id);
-	deserializePrimitive(i, rating);
 
 	deserializePrimitive(i, pagesCount);
 	for (size_t k = 0; k < pagesCount; k++)

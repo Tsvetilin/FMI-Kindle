@@ -14,7 +14,6 @@ class Book
 	String title;
 	List<Feedback*> feedbacks;
 	List<Page*> pages;
-	double rating;
 
 	void copyFrom(const Book& other);
 	void free();

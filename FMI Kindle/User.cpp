@@ -17,6 +17,10 @@ bool User::readBook(const Book* book) {
 }
 
 bool User::writeBook(Book* book) {
+	if (book->getAuthor() != username) {
+		return false;
+	}
+
 	writtenBooks.add(book);
 	return true;
 }
@@ -30,7 +34,7 @@ bool User::isAuthor(Book* book) const {
 }
 
 bool User::rateBook(Book* book, size_t rate) {
-	if (!hasReadBook(book) || writtenBooks.contains(book)) {
+	if (!hasReadBook(book) || isAuthor(book)) {
 		return false;
 	}
 
@@ -38,7 +42,7 @@ bool User::rateBook(Book* book, size_t rate) {
 }
 
 bool User::commentBook(Book* book, const String& comment) {
-	if (!hasReadBook(book) && !isAuthor(book)) {
+	if (!hasReadBook(book)) {
 		return false;
 	}
 

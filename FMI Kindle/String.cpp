@@ -60,9 +60,12 @@ void String::concat(const String& other)
 	string = temp;
 }
 
-String String::substr(size_t index, size_t length = 0) {
+String String::substr(size_t index, size_t length = 0) const {
 	if (index + length > this->length) {
 		length = this->length - index;
+	}
+	else if (index + length == this->length) {
+		return String(string + index);
 	}
 
 	char* data = new char[length + 1];
@@ -71,6 +74,8 @@ String String::substr(size_t index, size_t length = 0) {
 	{
 		data[i - index] = string[i];
 	}
+
+	data[length] = '\0';
 
 	String result(data);
 
@@ -135,12 +140,15 @@ bool String::operator<=(const String& other) const
 	return strcmp(string, other.c_str()) <= 0;
 }
 
-std::istream& getline(std::istream& i, String& str) {
+bool String::operator!=(const String& other) const
+{
+	return strcmp(string, other.c_str()) != 0;
+}
+
+void getline(std::istream& i, String& str) {
 	char buff[BUFF_LENGTH];
 	std::cin.getline(buff, BUFF_LENGTH);
 	str.setString(buff);
-
-	return i;
 }
 
 void String::setString(const char* const str) {
@@ -161,4 +169,34 @@ void deserializeString(std::istream& i, String& str) {
 	i.read(temp, str.length);
 	temp[str.length] = '\0';
 	str.string = temp;
+}
+
+char& String::operator[](size_t index) {
+	if (index > length) {
+		throw "Index out of range exception!";
+	}
+
+	return string[index];
+}
+
+const char& String::operator[](size_t index) const {
+	if (index > length) {
+		throw "Index out of range exception!";
+	}
+
+	return string[index];
+}
+
+void String::trim() {
+	size_t leadingSpaces = 0;
+	while (string[leadingSpaces] == ' ') {
+		++leadingSpaces;
+	}
+
+	size_t followingSpaces = 0;
+	while (string[length-1-followingSpaces] == ' ') {
+		++followingSpaces;
+	}
+
+	*this = substr(leadingSpaces, length - leadingSpaces - followingSpaces);
 }
