@@ -149,6 +149,10 @@ Kindle::~Kindle() {
 }
 
 bool Kindle::login(const String& username, const String& password) {
+	if (currentLoggedUser != nullptr) {
+		return false;
+	}
+
 	for (size_t i = 0; i < users.getCount(); i++)
 	{
 		if (username == users[i]->getUsername()) {
