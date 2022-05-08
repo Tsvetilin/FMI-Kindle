@@ -16,7 +16,7 @@ bool User::readBook(const Book* book) {
 	return true;
 }
 
-bool User::writeBook(Book* book) {
+bool User::writeBook(const Book* book) {
 	if (book->getAuthor() != username) {
 		return false;
 	}
@@ -29,7 +29,7 @@ bool User::hasReadBook(const Book* book) const {
 	return readBooks.contains(book);
 }
 
-bool User::isAuthor(Book* book) const {
+bool User::isAuthor(const Book* book) const {
 	return writtenBooks.contains(book);
 }
 

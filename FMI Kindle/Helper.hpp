@@ -21,3 +21,4 @@ String skipCmd(const String& input);
 String getQuotes(const String& input); 
 size_t parseToUInt(const String& input);
 String getLastArgument(const String& input);
+String getAfterQuotes(const String& input);

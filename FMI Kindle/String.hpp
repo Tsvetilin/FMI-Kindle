@@ -21,6 +21,7 @@ public:
 	const char* c_str() const;
 	size_t getLength() const;
 	String substr(size_t, size_t) const;
+	int indexOf(char c);
 
 	void trim();
 	void concat(const String&);
@@ -35,7 +36,6 @@ public:
 	bool operator<= (const String&) const;
 	bool operator!= (const String&) const;
 
-	char& operator[](size_t);
 	const char& operator[](size_t) const;
 
 	friend std::ostream& operator<<(std::ostream&, const String&);

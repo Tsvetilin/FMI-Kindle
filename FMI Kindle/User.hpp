@@ -9,7 +9,7 @@ class User
 	String password;
 
 	List<const Book*> readBooks;
-	List<Book*> writtenBooks;
+	List<const Book*> writtenBooks;
 
 public:
 	User(){}
@@ -19,12 +19,12 @@ public:
 
 	bool loginAttempt(const String& password) const;
 	bool hasReadBook(const Book* book) const;
-	bool isAuthor(Book* book) const;
+	bool isAuthor(const Book* book) const;
 
 	bool rateBook(Book* book, size_t rate);
 	bool commentBook(Book* book, const String& comment);
 	bool readBook(const Book* book);
-	bool writeBook(Book* book);
+	bool writeBook(const Book* book);
 	bool editBook(Book* book, size_t pageNumber, const String& content);
 	bool editTitle(Book* book, const String& newTitle);
 	bool addPageToBook(Book* book, const String& content);

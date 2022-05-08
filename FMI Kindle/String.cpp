@@ -69,10 +69,9 @@ String String::substr(size_t index, size_t length = 0) const {
 	}
 
 	char* data = new char[length + 1];
-	length += index;
-	for (size_t i = index; i < length; i++)
+	for (size_t i = 0; i < length; i++)
 	{
-		data[i - index] = string[i];
+		data[i] = string[i + index];
 	}
 
 	data[length] = '\0';
@@ -165,18 +164,10 @@ void serializeString(std::ostream& o, const String& str) {
 
 void deserializeString(std::istream& i, String& str) {
 	i.read((char*)&str.length, sizeof(str.length));
-	char* temp = new char[str.length+1];
+	char* temp = new char[str.length + 1];
 	i.read(temp, str.length);
 	temp[str.length] = '\0';
 	str.string = temp;
-}
-
-char& String::operator[](size_t index) {
-	if (index > length) {
-		throw "Index out of range exception!";
-	}
-
-	return string[index];
 }
 
 const char& String::operator[](size_t index) const {
@@ -194,9 +185,20 @@ void String::trim() {
 	}
 
 	size_t followingSpaces = 0;
-	while (string[length-1-followingSpaces] == ' ') {
+	while (string[length - 1 - followingSpaces] == ' ') {
 		++followingSpaces;
 	}
 
 	*this = substr(leadingSpaces, length - leadingSpaces - followingSpaces);
+}
+
+int String::indexOf(char c) {
+	for (size_t i = 0; i < length; i++)
+	{
+		if (string[i] == c) {
+			return i;
+		}
+	}
+
+	return -1;
 }

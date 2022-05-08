@@ -151,7 +151,7 @@ bool Book::printRates(std::ostream& o)const {
 	{
 		int r = feedbacks[i]->getRating();
 		if (r != -1) {
-			o << feedbacks[i]->getUser() << " rated " << r << " stars!";
+			o << feedbacks[i]->getUser() << " rated " << r << " stars!"<<std::endl;
 		}
 	}
 
