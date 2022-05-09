@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.hpp" />
+    <ClInclude Include="KindleInterface.hpp" />
     <ClInclude Include="List.hpp" />
     <ClInclude Include="String.hpp" />
   </ItemGroup>

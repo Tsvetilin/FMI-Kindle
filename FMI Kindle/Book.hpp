@@ -29,6 +29,7 @@ public:
 	String getTitle()const;
 	double getRating() const;
 	const size_t getId() const;
+	const size_t getPagesCount() const;
 	const Page* const getPage(size_t pageNo) const;
 
 	bool setTitle(const String& title);

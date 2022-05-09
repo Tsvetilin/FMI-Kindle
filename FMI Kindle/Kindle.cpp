@@ -181,7 +181,7 @@ bool Kindle::signup(const String& username, const String& password) {
 }
 
 bool Kindle::logout() {
-//	saveDb();
+	saveDb();
 	currentLoggedUser = nullptr;
 	return true;
 }
@@ -199,7 +199,7 @@ bool Kindle::writeBook(const String& title, const String& firstPageContent) {
 		}
 	}
 
-	Book* book = new Book(currentLoggedUser->getUsername(), title, firstPageContent, books.getCount()-1);
+	Book* book = new Book(currentLoggedUser->getUsername(), title, firstPageContent, books.getCount());
 	books.add(book);
 	return currentLoggedUser->writeBook(book);
 }
@@ -224,8 +224,12 @@ bool Kindle::readBookPage(const String& bookTitle, size_t page, std::ostream& o)
 		return false;
 	}
 
-	o << book->getPage(page - 1)->getContent() << std::endl;
-	return o.good();
+	if(book->getPagesCount()>=page && page>=1) {
+		o << book->getPage(page - 1)->getContent() << std::endl;
+		return o.good();
+	}
+	
+	return false;
 }
 
 bool Kindle::rateBook(const String& bookTitle, size_t rate) {

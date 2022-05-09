@@ -173,6 +173,10 @@ bool Book::addPage(const String& content) {
 	return true;
 }
 
+const size_t Book::getPagesCount() const {
+	return pages.getCount();
+}
+
 void Book::serialize(std::ostream& o) const {
 	size_t pagesCount = pages.getCount();
 	size_t feedbacksCount = feedbacks.getCount();

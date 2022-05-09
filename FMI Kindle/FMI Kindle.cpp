@@ -24,7 +24,7 @@ int main()
 	std::cout << "Welcome to FMI Kindle!\n";
 
 	Kindle kindle;
-
+/*
 	std::cout << kindle.signup("Ivan", "Test") << std::endl;
 	std::cout << kindle.signup("Petur", "Test") << std::endl;
 	std::cout << kindle.login("Ivan", "Test") << std::endl;
@@ -32,7 +32,7 @@ int main()
 	std::cout << kindle.writeBook("Book 1", "Some content") << std::endl;
 	std::cout << kindle.addPage("Book 1", "Some more content") << std::endl;
 
-	/*	std::cout << kindle.logout() << std::endl;
+		std::cout << kindle.logout() << std::endl;
 		std::cout << kindle.login("Petur", "Test") << std::endl;
 	*/
 	String input;
@@ -116,10 +116,16 @@ int main()
 					if (kindle.readBookPage(input, currentPage - 1, std::cout)) {
 						--currentPage;
 					}
+					else {
+						std::cout << "You reached the begining of the book!" << std::endl;
+					}
 				}
 				else if (temp == "n") {
 					if (kindle.readBookPage(input, currentPage + 1, std::cout)) {
 						++currentPage;
+					}
+					else {
+						std::cout<<"You reached the end of the book!" << std::endl;
 					}
 				}
 				else if (temp == "q") {
@@ -239,6 +245,7 @@ int main()
 			kindle.logout();
 			kindle.save();
 			std::cout << "Goodbye!" << std::endl;
+			return 0;
 		}
 		else {
 			std::cout << "Error! Invalid command!" << std::endl;
