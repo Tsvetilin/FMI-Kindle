@@ -47,12 +47,11 @@ void printKindleManual(std::ostream& outputStream) {
 	outputStream << "comment \"<book title>\" <comment> - To comment a read book from 0 to 10." << std::endl;
 	outputStream << "comments <book title> - To view the comments a book has received." << std::endl;
 	outputStream << "write - To start writing a book." << std::endl;
-	outputStream << "addPage - To add a page to the book you are writing." << std::endl;
-	outputStream << "editTitle - To edit the title of a book you have written." << std::endl;
-	outputStream << "editPage - To edit the content of a page of a book you have written." << std::endl;
+	outputStream << "addPage \"<book title>\" - To add a page to the book you are writing." << std::endl;
+	outputStream << "editTitle \"<book title>\" <new title>- To edit the title of a book you have written." << std::endl;
+	outputStream << "editPage \"<book title>\" <page number>- To edit the content of a page of a book you have written." << std::endl;
 	outputStream << "exit - To save and close the kindle." << std::endl;
 	outputStream << std::endl;
-
 }
 
 void useKindleHandler(Kindle& kindle, std::istream& inputStream, std::ostream& outputStream) {

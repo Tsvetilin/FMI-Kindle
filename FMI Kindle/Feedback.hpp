@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include "List.hpp"
 #include "String.hpp"

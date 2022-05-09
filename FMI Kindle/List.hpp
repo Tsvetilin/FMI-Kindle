@@ -1,4 +1,6 @@
 #pragma once
+#define DEFAULT_CAPACITY 10
+#define RESIZE_FACTOR 2
 
 template <typename T>
 class List {
@@ -48,7 +50,7 @@ void List<T>::free() {
 template <typename T>
 List<T>::List() {
 	count = 0;
-	capacity = 10;
+	capacity = DEFAULT_CAPACITY;
 	data = new T[capacity];
 }
 
@@ -75,7 +77,7 @@ List<T>::~List() {
 template <typename T>
 T& List<T>::at(size_t ind) const {
 	if (ind >= count) {
-		throw "Index out of range exception.";
+		throw std::invalid_argument("Index out of range exception.");
 	}
 
 	return data[ind];
@@ -84,7 +86,7 @@ T& List<T>::at(size_t ind) const {
 template <typename T>
 void List<T>::add(const T& element) {
 	if (capacity == count) {
-		capacity *= 2;
+		capacity *= RESIZE_FACTOR;
 		T* newArr = new T[capacity];
 		for (size_t i = 0; i < count; i++)
 		{

@@ -1,11 +1,9 @@
 #pragma once
-
+#include <iostream>
 #include "Page.hpp"
 #include "Feedback.hpp"
 #include "List.hpp"
 #include "String.hpp"
-
-#include <iostream>
 
 class Book
 {

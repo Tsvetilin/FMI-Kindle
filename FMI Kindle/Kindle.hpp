@@ -1,10 +1,8 @@
 #pragma once
-
+#include <iostream>
 #include "User.hpp"
 #include "Book.hpp"
 #include "List.hpp"
-
-#include <iostream>
 
 class Kindle
 {

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Book.hpp"
 #include "List.hpp"
 

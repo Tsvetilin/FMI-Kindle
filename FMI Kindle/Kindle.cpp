@@ -70,7 +70,15 @@ Kindle::Kindle() :Kindle(DEFAULT_DATABASE_NAME) {}
 
 Kindle::Kindle(const String& databaseName) :currentLoggedUser(nullptr) {
 	this->databaseName = databaseName;
-	readDb();
+	this->currentLoggedUser = nullptr;
+
+	try {
+		readDb();
+	}
+	catch (...) {
+		users = List<User*>();
+		books = List<Book*>();
+	}
 }
 
 Kindle::Kindle(const Kindle& other) {

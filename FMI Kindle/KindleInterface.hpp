@@ -1,7 +1,5 @@
 #pragma once
-
 #include "Kindle.hpp"
-
 #include <iostream>
 
 String pageInput(std::istream& inputStream);
