@@ -144,10 +144,11 @@
     <ClCompile Include="Book.hpp" />
     <ClCompile Include="Feedback.cpp" />
     <ClCompile Include="Feedback.hpp" />
-    <ClCompile Include="FMI Kindle.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Kindle.cpp" />
     <ClCompile Include="Kindle.hpp" />
+    <ClCompile Include="KindleInterface.cpp" />
     <ClCompile Include="Page.cpp" />
     <ClCompile Include="Page.hpp" />
     <ClCompile Include="String.cpp" />
