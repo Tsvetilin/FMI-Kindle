@@ -1,6 +1,10 @@
 #include "Page.hpp"
 #include "Helper.hpp"
 
+Page::Page() {
+	number = 0;
+}
+
 Page::Page(const String& content, size_t number) {
 	this->content = content;
 	this->number = number;

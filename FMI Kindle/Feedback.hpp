@@ -12,7 +12,8 @@ class Feedback
 
 public:
 	Feedback(const String& user);
-	Feedback() {}
+	Feedback();
+
 	size_t getRating() const;
 	String getUser() const;
 

@@ -51,6 +51,8 @@ void printKindleManual(std::ostream& outputStream) {
 	outputStream << "editTitle - To edit the title of a book you have written." << std::endl;
 	outputStream << "editPage - To edit the content of a page of a book you have written." << std::endl;
 	outputStream << "exit - To save and close the kindle." << std::endl;
+	outputStream << std::endl;
+
 }
 
 void useKindleHandler(Kindle& kindle, std::istream& inputStream, std::ostream& outputStream) {
@@ -154,7 +156,7 @@ void useKindleHandler(Kindle& kindle, std::istream& inputStream, std::ostream& o
 			}
 		}
 		else if (cmd == ratesCmd) {
-			int rating = kindle.getRating(input);
+			double rating = kindle.getRating(input);
 			if (rating >= 0) {
 				outputStream << "Overall book rating: " << rating << std::endl;
 				kindle.readRates(input, outputStream);
@@ -221,7 +223,6 @@ void useKindleHandler(Kindle& kindle, std::istream& inputStream, std::ostream& o
 			}
 		}
 		else if (cmd == editPageCmd) {
-
 			String title = getQuotes(input);
 			size_t page = parseToUInt(getAfterQuotes(input));
 			if (kindle.readBookPage(getQuotes(input), page, outputStream))
@@ -235,7 +236,6 @@ void useKindleHandler(Kindle& kindle, std::istream& inputStream, std::ostream& o
 			outputStream << "Error editing page! Either permission denied or invalid title/page!" << std::endl;
 		}
 		else if (cmd == addPageCmd) {
-
 			String title = getQuotes(input);
 			if (kindle.addPage(title, pageInput(inputStream))) {
 				outputStream << "Page added successfully!" << std::endl;

@@ -1,6 +1,10 @@
 #include "Feedback.hpp"
 #include "Helper.hpp"
 
+Feedback::Feedback() {
+	rating = -1;
+}
+
 Feedback::Feedback(const String& user) {
 	this->user = user;
 	rating = -1;

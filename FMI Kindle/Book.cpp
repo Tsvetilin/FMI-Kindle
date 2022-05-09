@@ -44,7 +44,9 @@ bool Book::setTitle(const String& title) {
 	return true;
 }
 
-Book::Book() {}
+Book::Book() {
+	id = 0;
+}
 
 void Book::copyFrom(const Book& other) {
 	authorName = other.authorName;
@@ -105,7 +107,6 @@ Book::~Book() {
 const size_t Book::getId() const {
 	return id;
 }
-
 
 bool Book::rate(const String& user, size_t rate) {
 	for (size_t i = 0; i < feedbacks.getCount(); i++)

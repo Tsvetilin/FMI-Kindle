@@ -10,7 +10,7 @@ class Page
 	size_t number;
 
 public:
-	Page(){}
+	Page();
 	Page(const String& content, size_t number);
 
 	String getContent() const;
