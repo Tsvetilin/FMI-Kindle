@@ -67,6 +67,7 @@ size_t parseToUInt(const String& input) {
 	}
 
 	while (isNumber(input[index])) {
+		result *= 10;
 		result += input[index] - '0';
 		++index;
 	}
