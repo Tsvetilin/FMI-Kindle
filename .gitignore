@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /FMI Kindle/fmi-kindle.db
+/FMI Kindle/2_SI_1_5_3MI0600062.zip

@@ -167,7 +167,7 @@ void deserializeString(std::istream& i, String& str) {
 	char* temp = new char[str.length + 1];
 	i.read(temp, str.length);
 	temp[str.length] = '\0';
-	str.string = temp;
+	str.setString(temp);
 }
 
 const char& String::operator[](size_t index) const {
