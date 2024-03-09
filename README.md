@@ -1,3 +1,4 @@
+# Simple Kindle Library
 ###### Made as a project for the Object Oriented Programming course @ FMI, Sofia University.
 
 ### Description
